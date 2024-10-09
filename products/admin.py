@@ -1,22 +1,21 @@
 from django.contrib import admin
 
-from .models import Product, Category
+from .models import Product, Category, Section
 
-class SubCategoryInline(admin.TabularInline):  # or admin.StackedInline
-    model = SubCategory
+
+class CategoryInline(admin.TabularInline):  # or admin.StackedInline
+    model = Category
     extra = 1
-    
-#@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    #list_display = ('name')
-    #search_fields = ('name')
-    inlines = [SubCategoryInline]
-    
 
-"""@admin.register(Product)
+
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+
+    inlines = [CategoryInline]
+
+
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'subcategory', 'price', 'created_at')
-    search_fields = ('name',)
-    list_filter = ('subcategory',)
-    """
-admin.site.register(Product)
+    list_display = ("name", "price", "category")
+    search_fields = ("name",)
+    list_filter = ("category",)
